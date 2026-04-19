@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FCG.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+829f3ecea197d0a30679e18ca43e9cb01e81e28f")]
 [assembly: System.Reflection.AssemblyProductAttribute("FCG.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FCG.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

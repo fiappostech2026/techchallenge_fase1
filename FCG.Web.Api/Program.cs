@@ -1,22 +1,19 @@
-using FCG.Configuration;
+using FCG.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-builder.Services.AddDependencies(); 
+builder.AddSwaggerConfig();
+builder.AddDatabase();
+builder.AddJwt();
+builder.Services.AddDependencies();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
+app.MigrateDatabase();
+app.UseSwaggerConfig();
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 

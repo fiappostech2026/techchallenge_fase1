@@ -1,6 +1,6 @@
-namespace FCG.Configuration;
+namespace FCG.Extensions;
 
-public static class DependencyInjection
+public static class DependencyInjectionExtension
 {
     public static IServiceCollection AddDependencies(this IServiceCollection services)
     {
