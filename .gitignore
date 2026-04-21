@@ -54,3 +54,7 @@ desktop.ini
 
 # Node (caso use algum frontend)
 node_modules/
+
+# SSH
+LinuxFCG
+LinuxFCG.pub
