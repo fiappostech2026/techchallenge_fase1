@@ -30,7 +30,6 @@ logs/
 # Variáveis de ambiente e secrets
 .env
 .env.*
-appsettings.Development.json
 secrets.json
 
 # Migrations geradas automaticamente (opcional — remova se quiser versionar)
