@@ -17,19 +17,20 @@ public class UserConfig : IEntityTypeConfiguration<User>
 
         builder.Property(x => x.Name)
             .IsRequired()
-            .HasMaxLength(100)
-            .HasColumnType("varchar(100)");
+            .HasMaxLength(100);
 
         builder.Property(x => x.Email)
             .IsRequired()
-            .HasMaxLength(150)
-            .HasColumnType("varchar(150)");
+            .HasMaxLength(150);
 
         builder.Property(x => x.Password)
             .IsRequired()
-            .HasMaxLength(255)
-            .HasColumnType("varchar(255)");
+            .HasMaxLength(255);
         
+        builder.Property(x => x.Role)
+            .IsRequired()
+            .HasConversion<string>(); 
+
         // Relacionamento com User
         // builder.HasOne(x => x.User)
         //     .WithMany(x => x.UserGames)
