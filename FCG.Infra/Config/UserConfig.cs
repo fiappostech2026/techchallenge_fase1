@@ -30,10 +30,5 @@ public class UserConfig : IEntityTypeConfiguration<User>
         builder.Property(x => x.Role)
             .IsRequired()
             .HasConversion<string>(); 
-
-        // Relacionamento com User
-        // builder.HasOne(x => x.User)
-        //     .WithMany(x => x.UserGames)
-        //     .HasForeignKey(x => x.UserId);
     }
 }

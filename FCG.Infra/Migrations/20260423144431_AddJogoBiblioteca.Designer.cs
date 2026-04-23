@@ -3,6 +3,7 @@ using System;
 using FCG.Infra.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FCG.Infra.Migrations
 {
     [DbContext(typeof(FcgContext))]
-    partial class FcgContextModelSnapshot : ModelSnapshot
+    [Migration("20260423144431_AddJogoBiblioteca")]
+    partial class AddJogoBiblioteca
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.6");
@@ -104,9 +107,6 @@ namespace FCG.Infra.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<decimal>("Preco")
-                        .HasColumnType("decimal(10,2)");
-
-                    b.Property<decimal?>("PrecoPromocional")
                         .HasColumnType("decimal(10,2)");
 
                     b.HasKey("Id");

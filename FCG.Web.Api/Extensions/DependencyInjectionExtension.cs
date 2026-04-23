@@ -16,7 +16,9 @@ public static class DependencyInjectionExtension
         
         // Repositories
         services.AddScoped<IUserRepository, UserRepository>();
-        
+        services.AddScoped<IJogoRepository, JogoRepository>();
+        services.AddScoped<IBibliotecaRepository, BibliotecaRepository>();
+
         // Validators
         services.AddValidatorsFromAssemblyContaining<UserValidator>();
 
