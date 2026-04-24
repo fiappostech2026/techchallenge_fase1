@@ -1,10 +1,7 @@
-﻿using FCG.Domain.Entities;
+using FCG.Domain.Entities;
 using FCG.Domain.Interfaces.IRepository;
 using FCG.Infra.Context;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FCG.Infra.Repository
 {
@@ -14,9 +11,9 @@ namespace FCG.Infra.Repository
         {
         }
 
-        public async Task<bool> UsuarioJaPossuiJogo(Guid userId, Guid jogoId)
+        public async Task<bool> UsuarioJaPossuiJogo(Guid usuarioId, Guid jogoId)
         {
-            return await _dbSet.AnyAsync(x => x.UserId == userId && x.JogoId == jogoId);
+            return await _dbSet.AnyAsync(x => x.UsuarioId == usuarioId && x.JogoId == jogoId);
         }
     }
 }

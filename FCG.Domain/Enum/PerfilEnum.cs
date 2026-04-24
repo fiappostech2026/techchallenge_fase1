@@ -1,7 +1,7 @@
 namespace FCG.Domain.Enum;
 
-public enum RoleEnum
+public enum PerfilEnum
 {
-    User = 1,
+    Usuario = 1,
     Admin = 2
 }

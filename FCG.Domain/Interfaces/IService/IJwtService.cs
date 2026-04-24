@@ -1,8 +1,8 @@
-using FCG.Domain.Entitie;
+using FCG.Domain.Entities;
 
 namespace FCG.Domain.Interfaces.IService;
 
 public interface IJwtService
 {
-    string GenerateToken(User user);
+    string GerarToken(Usuario usuario);
 }

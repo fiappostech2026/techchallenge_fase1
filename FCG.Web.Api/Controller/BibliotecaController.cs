@@ -1,7 +1,6 @@
-﻿using FCG.Domain.Entities;
+using FCG.Domain.Entities;
 using FCG.Domain.Interfaces.IRepository;
 using FCG.Domain.Interfaces.IService;
-using FCG.Infra.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -24,17 +23,17 @@ namespace FCG.Controller
             _bibliotecaService = bibliotecaService;
         }
 
-        [HttpGet]        
+        [HttpGet]
         public async Task<ActionResult> MinhaBiblioteca()
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var usuarioId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            if (userId is null)
+            if (usuarioId is null)
                 return Unauthorized();
 
-            var userGuid = Guid.Parse(userId);
+            var usuarioGuid = Guid.Parse(usuarioId);
 
-            var biblioteca = await _bibliotecaRepository.GetByIdAsync(userGuid);
+            var biblioteca = await _bibliotecaRepository.ObterPorIdAsync(usuarioGuid);
 
             if (biblioteca is null)
                 return NotFound();
@@ -43,21 +42,21 @@ namespace FCG.Controller
         }
 
         [HttpPost("comprar/{jogoId:guid}")]
-        public async Task<IActionResult> ComprarJogo(Guid jogoId) 
+        public async Task<IActionResult> ComprarJogo(Guid jogoId)
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var usuarioId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            if (userId is null)
+            if (usuarioId is null)
                 return Unauthorized();
 
-            var userGuid = Guid.Parse(userId);
+            var usuarioGuid = Guid.Parse(usuarioId);
 
-            var compraRealizada = await _bibliotecaService.ComprarJogo(userGuid, jogoId);
+            var compraRealizada = await _bibliotecaService.ComprarJogo(usuarioGuid, jogoId);
 
             if (!compraRealizada)
-                return BadRequest(new { Message = "Não foi possível realizar a compra." });
+                return BadRequest(new { Mensagem = "Não foi possível realizar a compra." });
 
-            return Ok(new { Message = "Compra realizada com sucesso!" });
+            return Ok(new { Mensagem = "Compra realizada com sucesso!" });
         }
     }
 }

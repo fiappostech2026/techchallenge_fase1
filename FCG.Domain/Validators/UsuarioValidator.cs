@@ -3,15 +3,15 @@ using FluentValidation;
 
 namespace FCG.Domain.Validators;
 
-public class UserValidator : AbstractValidator<UserDto>
+public class UsuarioValidator : AbstractValidator<UsuarioDto>
 {
-    public UserValidator()
+    public UsuarioValidator()
     {
         RuleFor(x => x.Email)
             .NotEmpty().WithMessage("E-mail é obrigatório.")
             .EmailAddress().WithMessage("Formato de e-mail inválido.");
 
-        RuleFor(x => x.Password)
+        RuleFor(x => x.Senha)
             .NotEmpty().WithMessage("Senha é obrigatória.")
             .MinimumLength(8).WithMessage("A senha deve ter no mínimo 8 caracteres.")
             .Matches("[A-Za-z]").WithMessage("A senha deve conter pelo menos uma letra.")

@@ -1,9 +1,6 @@
-﻿using FCG.Domain.Interfaces.IRepository;
+using FCG.Domain.Interfaces.IRepository;
 using FCG.Infra.Context;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FCG.Infra.Repository
 {
@@ -18,32 +15,32 @@ namespace FCG.Infra.Repository
             _dbSet = context.Set<T>();
         }
 
-        public async Task<T> GetByIdAsync(Guid id)
+        public async Task<T> ObterPorIdAsync(Guid id)
         {
             return await _dbSet.FindAsync(id);
-        }   
+        }
 
-        public async Task<List<T>> GetAllAsync()
+        public async Task<List<T>> ObterTodosAsync()
         {
             return await _dbSet.ToListAsync();
         }
 
-        public async Task AddAsync(T entity)
+        public async Task AdicionarAsync(T entidade)
         {
-            await _dbSet.AddAsync(entity);  
+            await _dbSet.AddAsync(entidade);
         }
 
-        public void Update(T entity)
+        public void Atualizar(T entidade)
         {
-            _dbSet.Update(entity);
+            _dbSet.Update(entidade);
         }
 
-        public void Remove(T entity)
+        public void Remover(T entidade)
         {
-            _dbSet.Remove(entity);
+            _dbSet.Remove(entidade);
         }
 
-        public async Task SaveChangesAsync()
+        public async Task SalvarAlteracoesAsync()
         {
             await _context.SaveChangesAsync();
         }

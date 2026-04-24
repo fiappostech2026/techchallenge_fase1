@@ -1,12 +1,9 @@
-﻿using FCG.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using FCG.Domain.Entities;
 
 namespace FCG.Domain.Interfaces.IRepository
 {
     public interface IBibliotecaRepository : IRepositoryBase<Biblioteca>
     {
-        Task<bool> UsuarioJaPossuiJogo(Guid userId, Guid jogoId);       
+        Task<bool> UsuarioJaPossuiJogo(Guid usuarioId, Guid jogoId);
     }
 }

@@ -1,9 +1,6 @@
-﻿using FCG.Domain.Entities;
+using FCG.Domain.Entities;
 using FCG.Domain.Interfaces.IRepository;
 using FCG.Domain.Interfaces.IService;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FCG.Domain.Service
 {
@@ -18,14 +15,14 @@ namespace FCG.Domain.Service
             _jogoRepository = jogoRepository;
         }
 
-        public async Task<bool> ComprarJogo(Guid userId, Guid jogoId)
+        public async Task<bool> ComprarJogo(Guid usuarioId, Guid jogoId)
         {
-            var jogo = await _jogoRepository.GetByIdAsync(jogoId);
+            var jogo = await _jogoRepository.ObterPorIdAsync(jogoId);
 
             if (jogo is null)
                 return false;
 
-            var jaComprou = await _bibliotecaRepository.UsuarioJaPossuiJogo(userId, jogoId);
+            var jaComprou = await _bibliotecaRepository.UsuarioJaPossuiJogo(usuarioId, jogoId);
 
             if (jaComprou)
                 return false;
@@ -34,14 +31,14 @@ namespace FCG.Domain.Service
 
             var biblioteca = new Biblioteca
             {
-                UserId = userId,
+                UsuarioId = usuarioId,
                 JogoId = jogoId,
                 DataCompra = DateTime.Now,
                 PrecoPago = precoFinal
             };
 
-            await _bibliotecaRepository.AddAsync(biblioteca);
-            await _bibliotecaRepository.SaveChangesAsync();
+            await _bibliotecaRepository.AdicionarAsync(biblioteca);
+            await _bibliotecaRepository.SalvarAlteracoesAsync();
 
             return true;
         }

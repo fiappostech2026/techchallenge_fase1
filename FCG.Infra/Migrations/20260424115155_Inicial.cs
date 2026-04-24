@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FCG.Infra.Migrations
 {
     /// <inheritdoc />
-    public partial class AddJogoBiblioteca : Migration
+    public partial class Inicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,6 +19,7 @@ namespace FCG.Infra.Migrations
                     Nome = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     Descricao = table.Column<string>(type: "TEXT", maxLength: 400, nullable: false),
                     Preco = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    PrecoPromocional = table.Column<decimal>(type: "decimal(10,2)", nullable: true),
                     Genero = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     DataLancamento = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Plataforma = table.Column<string>(type: "TEXT", nullable: false)
@@ -29,13 +30,28 @@ namespace FCG.Infra.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Usuarios",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Nome = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    Email = table.Column<string>(type: "TEXT", maxLength: 150, nullable: false),
+                    Senha = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
+                    Perfil = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Usuarios", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Biblioteca",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     DataCompra = table.Column<DateTime>(type: "TEXT", nullable: false),
                     PrecoPago = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    UserId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    UsuarioId = table.Column<Guid>(type: "TEXT", nullable: false),
                     JogoId = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -48,9 +64,9 @@ namespace FCG.Infra.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Biblioteca_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
+                        name: "FK_Biblioteca_Usuarios_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "Usuarios",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -61,9 +77,9 @@ namespace FCG.Infra.Migrations
                 column: "JogoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Biblioteca_UserId_JogoId",
+                name: "IX_Biblioteca_UsuarioId_JogoId",
                 table: "Biblioteca",
-                columns: new[] { "UserId", "JogoId" },
+                columns: new[] { "UsuarioId", "JogoId" },
                 unique: true);
         }
 
@@ -75,6 +91,9 @@ namespace FCG.Infra.Migrations
 
             migrationBuilder.DropTable(
                 name: "Jogo");
+
+            migrationBuilder.DropTable(
+                name: "Usuarios");
         }
     }
 }

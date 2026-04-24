@@ -1,4 +1,4 @@
-using FCG.Domain.Entitie;
+using FCG.Domain.Entities;
 using FCG.Domain.Enum;
 using FCG.Infra.Context;
 
@@ -11,14 +11,14 @@ public static class MasterUserExtension
         using var scope = app.Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<FcgContext>();
 
-        if (!db.Users.Any(u => u.Role == RoleEnum.Admin))
+        if (!db.Usuarios.Any(u => u.Perfil == PerfilEnum.Admin))
         {
-            db.Users.Add(new User
+            db.Usuarios.Add(new Usuario
             {
-                Name = "Master",
+                Nome = "Master",
                 Email = "admin@fcg.com",
-                Password = BCrypt.Net.BCrypt.HashPassword("Admin@123"),
-                Role = RoleEnum.Admin
+                Senha = BCrypt.Net.BCrypt.HashPassword("Admin@123"),
+                Perfil = PerfilEnum.Admin
             });
             db.SaveChanges();
         }

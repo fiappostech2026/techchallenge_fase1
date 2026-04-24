@@ -1,4 +1,4 @@
-﻿using FCG.Domain.Dto;
+using FCG.Domain.Dto;
 using FCG.Domain.Entities;
 using FCG.Domain.Interfaces.IRepository;
 using FluentValidation;
@@ -24,7 +24,7 @@ namespace FCG.Controller
         [HttpGet("{id}")]
         public async Task<IActionResult> RecuperarPorId(Guid id)
         {
-            var jogo = await _jogoRepository.GetByIdAsync(id);
+            var jogo = await _jogoRepository.ObterPorIdAsync(id);
 
             if (jogo is null)
                 return NotFound();
@@ -35,7 +35,7 @@ namespace FCG.Controller
         [HttpGet]
         public async Task<ActionResult> ObterTodos()
         {
-            var jogos = await _jogoRepository.GetAllAsync();
+            var jogos = await _jogoRepository.ObterTodosAsync();
             return Ok(jogos);
         }
 
@@ -43,10 +43,10 @@ namespace FCG.Controller
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Criar([FromBody] JogoDto dto)
         {
-            var validation = await _validator.ValidateAsync(dto);
+            var validacao = await _validator.ValidateAsync(dto);
 
-            if (!validation.IsValid)
-                return BadRequest(validation.Errors.Select(e => e.ErrorMessage));
+            if (!validacao.IsValid)
+                return BadRequest(validacao.Errors.Select(e => e.ErrorMessage));
 
             var jogo = new Jogo
             {
@@ -58,22 +58,22 @@ namespace FCG.Controller
                 Plataforma = dto.Plataforma
             };
 
-            await _jogoRepository.AddAsync(jogo);
-            await _jogoRepository.SaveChangesAsync();
+            await _jogoRepository.AdicionarAsync(jogo);
+            await _jogoRepository.SalvarAlteracoesAsync();
 
             return CreatedAtAction(nameof(RecuperarPorId), new { id = jogo.Id }, jogo);
         }
 
         [HttpPut("{id:guid}")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> Update(Guid id, [FromBody] JogoDto dto)
+        public async Task<ActionResult> Atualizar(Guid id, [FromBody] JogoDto dto)
         {
-            var validation = await _validator.ValidateAsync(dto);
+            var validacao = await _validator.ValidateAsync(dto);
 
-            if (!validation.IsValid)
-                return BadRequest(validation.Errors.Select(e => e.ErrorMessage));
+            if (!validacao.IsValid)
+                return BadRequest(validacao.Errors.Select(e => e.ErrorMessage));
 
-            var jogoExistente = await _jogoRepository.GetByIdAsync(id);
+            var jogoExistente = await _jogoRepository.ObterPorIdAsync(id);
 
             if (jogoExistente == null)
                 return NotFound();
@@ -85,32 +85,32 @@ namespace FCG.Controller
             jogoExistente.DataLancamento = dto.DataLancamento;
             jogoExistente.Plataforma = dto.Plataforma;
 
-            _jogoRepository.Update(jogoExistente);
-            await _jogoRepository.SaveChangesAsync();
+            _jogoRepository.Atualizar(jogoExistente);
+            await _jogoRepository.SalvarAlteracoesAsync();
 
             return NoContent();
         }
 
         [HttpDelete("{id:guid}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Excluir(Guid id)
         {
-            var jogo = await _jogoRepository.GetByIdAsync(id);
+            var jogo = await _jogoRepository.ObterPorIdAsync(id);
 
             if (jogo == null)
                 return NotFound();
 
-            _jogoRepository.Remove(jogo);
-            await _jogoRepository.SaveChangesAsync();
+            _jogoRepository.Remover(jogo);
+            await _jogoRepository.SalvarAlteracoesAsync();
 
             return NoContent();
         }
 
         [HttpPatch("{id:guid}/promocao")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> CriarPromocao(Guid id, [FromBody]PromocaoDto promocaoDto)
+        public async Task<IActionResult> CriarPromocao(Guid id, [FromBody] PromocaoDto promocaoDto)
         {
-            var jogo = await _jogoRepository.GetByIdAsync(id);
+            var jogo = await _jogoRepository.ObterPorIdAsync(id);
 
             if (jogo == null)
                 return NotFound();
@@ -120,10 +120,10 @@ namespace FCG.Controller
 
             jogo.PrecoPromocional = promocaoDto.PrecoPromocional;
 
-            _jogoRepository.Update(jogo);
-            await _jogoRepository.SaveChangesAsync();
+            _jogoRepository.Atualizar(jogo);
+            await _jogoRepository.SalvarAlteracoesAsync();
 
-            return Ok(new { Message = "Promoção criada com sucesso!", jogo });
+            return Ok(new { Mensagem = "Promoção criada com sucesso!", jogo });
         }
     }
 }

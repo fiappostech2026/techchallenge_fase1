@@ -11,19 +11,19 @@ public static class DependencyInjectionExtension
 {
     public static IServiceCollection AddDependencies(this IServiceCollection services)
     {
-        // Services
+        // Serviços
         services.AddScoped<IJwtService, JwtService>();
-        
-        // Repositories
-        services.AddScoped<IUserRepository, UserRepository>();
+
+        // Repositórios
+        services.AddScoped<IUsuarioRepository, UsuarioRepository>();
         services.AddScoped<IJogoRepository, JogoRepository>();
         services.AddScoped<IBibliotecaRepository, BibliotecaRepository>();
 
-        // Services
+        // Serviços
         services.AddScoped<IBibliotecaService, BibliotecaService>();
 
-        // Validators
-        services.AddValidatorsFromAssemblyContaining<UserValidator>();
+        // Validadores
+        services.AddValidatorsFromAssemblyContaining<UsuarioValidator>();
 
         return services;
     }

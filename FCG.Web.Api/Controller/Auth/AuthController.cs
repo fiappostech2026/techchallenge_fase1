@@ -10,27 +10,27 @@ namespace FCG.Controller.Auth;
 public class AuthController : ControllerBase
 {
     private readonly IJwtService _jwtService;
-    private readonly IUserRepository _userRepository;
+    private readonly IUsuarioRepository _usuarioRepository;
 
-    public AuthController(IUserRepository userRepository, IJwtService jwtService)
+    public AuthController(IUsuarioRepository usuarioRepository, IJwtService jwtService)
     {
-        _userRepository = userRepository;
+        _usuarioRepository = usuarioRepository;
         _jwtService = jwtService;
     }
-    
+
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginDto dto)
     {
-        var user = await _userRepository.GetByEmailAsync(dto.Email);
+        var usuario = await _usuarioRepository.ObterPorEmailAsync(dto.Email);
 
-        if (user is null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.Password))
-            return Unauthorized(new { Message = "E-mail ou senha inválidos." });
+        if (usuario is null || !BCrypt.Net.BCrypt.Verify(dto.Senha, usuario.Senha))
+            return Unauthorized(new { Mensagem = "E-mail ou senha inválidos." });
 
-        var token = _jwtService.GenerateToken(user);
+        var token = _jwtService.GerarToken(usuario);
 
         return Ok(new
         {
-            Message = "Login realizado com sucesso!",
+            Mensagem = "Login realizado com sucesso!",
             Token = token
         });
     }

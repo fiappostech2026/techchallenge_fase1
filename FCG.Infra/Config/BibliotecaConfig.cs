@@ -1,10 +1,6 @@
-﻿using FCG.Domain.Entitie;
 using FCG.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FCG.Infra.Config
 {
@@ -21,16 +17,16 @@ namespace FCG.Infra.Config
                 .HasColumnType("decimal(10,2)")
                 .IsRequired();
 
-            builder.Property(b => b.UserId)
+            builder.Property(b => b.UsuarioId)
                 .IsRequired();
 
             builder.Property(b => b.JogoId)
                 .IsRequired();
 
             builder
-                .HasOne<User>()
+                .HasOne<Usuario>()
                 .WithMany()
-                .HasForeignKey(b => b.UserId)
+                .HasForeignKey(b => b.UsuarioId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder
@@ -40,7 +36,7 @@ namespace FCG.Infra.Config
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder
-                .HasIndex(b => new { b.UserId, b.JogoId })
+                .HasIndex(b => new { b.UsuarioId, b.JogoId })
                 .IsUnique();
         }
     }

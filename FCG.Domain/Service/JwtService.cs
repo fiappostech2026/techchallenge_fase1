@@ -1,7 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using FCG.Domain.Entitie;
+using FCG.Domain.Entities;
 using FCG.Domain.Interfaces.IService;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -16,8 +16,8 @@ public class JwtService : IJwtService
     {
         _configuration = configuration;
     }
-    
-    public string GenerateToken(User user)
+
+    public string GerarToken(Usuario usuario)
     {
         var jwtSettings = _configuration.GetSection("JwtSettings");
         var secretKey = jwtSettings["SecretKey"]!;
@@ -26,10 +26,10 @@ public class JwtService : IJwtService
 
         var claims = new[]
         {
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Name, user.Name),
-            new Claim(ClaimTypes.Email, user.Email),
-            new Claim(ClaimTypes.Role, user.Role.ToString())
+            new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
+            new Claim(ClaimTypes.Name, usuario.Nome),
+            new Claim(ClaimTypes.Email, usuario.Email),
+            new Claim(ClaimTypes.Role, usuario.Perfil.ToString())
         };
 
         var token = new JwtSecurityToken(

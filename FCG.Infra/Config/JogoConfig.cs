@@ -1,5 +1,4 @@
-﻿using FCG.Domain.Entitie;
-using FCG.Domain.Entities;
+﻿using FCG.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;

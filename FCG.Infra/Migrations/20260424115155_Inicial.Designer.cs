@@ -11,44 +11,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FCG.Infra.Migrations
 {
     [DbContext(typeof(FcgContext))]
-    [Migration("20260423144431_AddJogoBiblioteca")]
-    partial class AddJogoBiblioteca
+    [Migration("20260424115155_Inicial")]
+    partial class Inicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.6");
-
-            modelBuilder.Entity("FCG.Domain.Entitie.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users", (string)null);
-                });
 
             modelBuilder.Entity("FCG.Domain.Entities.Biblioteca", b =>
                 {
@@ -65,14 +35,14 @@ namespace FCG.Infra.Migrations
                     b.Property<decimal>("PrecoPago")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid>("UsuarioId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.HasIndex("JogoId");
 
-                    b.HasIndex("UserId", "JogoId")
+                    b.HasIndex("UsuarioId", "JogoId")
                         .IsUnique();
 
                     b.ToTable("Biblioteca");
@@ -109,9 +79,42 @@ namespace FCG.Infra.Migrations
                     b.Property<decimal>("Preco")
                         .HasColumnType("decimal(10,2)");
 
+                    b.Property<decimal?>("PrecoPromocional")
+                        .HasColumnType("decimal(10,2)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Jogo", (string)null);
+                });
+
+            modelBuilder.Entity("FCG.Domain.Entities.Usuario", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Perfil")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Senha")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Usuarios", (string)null);
                 });
 
             modelBuilder.Entity("FCG.Domain.Entities.Biblioteca", b =>
@@ -122,9 +125,9 @@ namespace FCG.Infra.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("FCG.Domain.Entitie.User", null)
+                    b.HasOne("FCG.Domain.Entities.Usuario", null)
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
