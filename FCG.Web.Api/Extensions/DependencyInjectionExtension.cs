@@ -19,6 +19,9 @@ public static class DependencyInjectionExtension
         services.AddScoped<IJogoRepository, JogoRepository>();
         services.AddScoped<IBibliotecaRepository, BibliotecaRepository>();
 
+        // Services
+        services.AddScoped<IBibliotecaService, BibliotecaService>();
+
         // Validators
         services.AddValidatorsFromAssemblyContaining<UserValidator>();
 

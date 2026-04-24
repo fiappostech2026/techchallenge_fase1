@@ -1,5 +1,6 @@
 ﻿using FCG.Domain.Entities;
 using FCG.Domain.Interfaces.IRepository;
+using FCG.Domain.Interfaces.IService;
 using FCG.Infra.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,11 +15,13 @@ namespace FCG.Controller
     {
         private readonly IBibliotecaRepository _bibliotecaRepository;
         private readonly IJogoRepository _jogoRepository;
+        private readonly IBibliotecaService _bibliotecaService;
 
-        public BibliotecaController(IBibliotecaRepository bibliotecaRepository, IJogoRepository jogoRepository)
+        public BibliotecaController(IBibliotecaRepository bibliotecaRepository, IJogoRepository jogoRepository, IBibliotecaService bibliotecaService)
         {
             _bibliotecaRepository = bibliotecaRepository;
             _jogoRepository = jogoRepository;
+            _bibliotecaService = bibliotecaService;
         }
 
         [HttpGet]        
@@ -49,31 +52,12 @@ namespace FCG.Controller
 
             var userGuid = Guid.Parse(userId);
 
-            var jogo = await _jogoRepository.GetByIdAsync(jogoId);
+            var compraRealizada = await _bibliotecaService.ComprarJogo(userGuid, jogoId);
 
-            if (jogo is null)
-                return NotFound(new { Message = "Jogo não encontrado" });
-
-            var jaComprou = await _bibliotecaRepository.UsuarioJaPossuiJogo(userGuid, jogoId);
-
-            if (jaComprou)
-                return BadRequest(new { Message = "Jogo já adquirido" });
-
-            var precoFinal = jogo.PrecoPromocional ?? jogo.Preco;
-
-            var biblioteca = new Biblioteca
-            {
-                UserId = userGuid,
-                JogoId = jogoId,
-                DataCompra = DateTime.Now,
-                PrecoPago = precoFinal
-            };
-
-            await _bibliotecaRepository.AddAsync(biblioteca);
-            await _bibliotecaRepository.SaveChangesAsync();
+            if (!compraRealizada)
+                return BadRequest(new { Message = "Não foi possível realizar a compra." });
 
             return Ok(new { Message = "Compra realizada com sucesso!" });
-
         }
     }
 }
