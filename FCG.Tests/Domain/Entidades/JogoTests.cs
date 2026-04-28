@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
-namespace FCG.Tests
+namespace FCG.Tests.Domain.Entidades
 {
     public class JogoTests
     {

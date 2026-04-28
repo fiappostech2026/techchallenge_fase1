@@ -3,13 +3,11 @@ using FCG.Domain.Interfaces.IRepository;
 using FCG.Domain.Service;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
-namespace FCG.Tests
+namespace FCG.Tests.Domain.Servicos
 {
-    public class BibliotecaTests
+    public class BibliotecaServiceTests
     {
         [Fact]
         public async Task ComprarJogo_JogoInexistente_RetornaFalse()
