@@ -1,6 +1,7 @@
 using FCG.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.AddSerilog();
 
 builder.Services.AddControllers();
 builder.AddSwaggerConfig();
@@ -13,6 +14,7 @@ var app = builder.Build();
 app.MigrateDatabase();
 app.AddMasterUser();
 app.UseSwaggerConfig();
+app.UseErrorHandlingMiddleware();
 app.UseHttpsRedirection();
 app.UseUnauthorizedMiddleware();
 app.UseForbiddenMiddleware();
