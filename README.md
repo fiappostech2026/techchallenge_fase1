@@ -31,7 +31,7 @@ FCG/
 
 ```bash
 # Clone o repositório
-git clone <url-do-repo>
+git clone https://github.com/fiappostech2026/techchallenge_fase1.git
 
 # Restaure as dependências
 dotnet restore
