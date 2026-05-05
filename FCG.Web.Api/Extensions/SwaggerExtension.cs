@@ -22,7 +22,7 @@ public static class SwaggerExtension
                 Scheme = "bearer", // lowercase per RFC 7235
                 BearerFormat = "JWT",
                 In = ParameterLocation.Header,
-                Description = "Insira o token JWT: Bearer {seu_token}"
+                Description = "Insira o token JWT: {seu_token}"
             });
 
             options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
